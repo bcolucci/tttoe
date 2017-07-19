@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 	"os/signal"
-	"poc-es/tttoe"
+	"tttoe/tttoe"
 )
 
 var cli *tttoe.CLI
