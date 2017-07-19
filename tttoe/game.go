@@ -58,7 +58,7 @@ func Compute(state State, event Event) State {
 		nextState.UpdatedAt = time.Now()
 	}
 	switch event.Name {
-	case "play":
+	case PlayAction:
 		player := event.Data["player"].(string)
 		y := event.Data["y"].(int)
 		x := event.Data["x"].(int)
