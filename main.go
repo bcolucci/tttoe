@@ -10,7 +10,7 @@ var cli *tttoe.CLI
 
 func runApp() {
 	state := tttoe.CreateInitialState()
-	cli.Start(state, tttoe.Compute)
+	cli.Start(state, tttoe.Reduce)
 }
 
 func catchExit() {

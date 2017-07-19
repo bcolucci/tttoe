@@ -11,7 +11,7 @@ type CLI struct {
 	LastState *State
 }
 
-func (cli *CLI) Start(initialState State, compute func(state State, event Event) State) {
+func (cli *CLI) Start(initialState State, reduce func(state State, event Event) State) {
 	tick := 0
 	ai := NewAI(Symbols[Player2])
 	state := initialState
@@ -35,7 +35,7 @@ func (cli *CLI) Start(initialState State, compute func(state State, event Event)
 			y, x = ai.NextPlay(&state.Stage)
 			tick = 0
 		}
-		state = compute(state, NewPlayEvent(player, y, x))
+		state = reduce(state, NewPlayEvent(player, y, x))
 		fmt.Println(state.Stage.ToString())
 		cli.wait()
 	}

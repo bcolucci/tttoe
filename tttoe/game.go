@@ -51,7 +51,7 @@ func GetWinner(stage *Stage) string {
 	return Nobody
 }
 
-func Compute(state State, event Event) State {
+func Reduce(state State, event Event) State {
 	nextState := state
 	commonUpdates := func() {
 		nextState.Events = append(nextState.Events, event)
