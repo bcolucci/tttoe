@@ -9,14 +9,14 @@ var InvalidCoordinate error = errors.New("Coordinate should be in [0, 2] interva
 var NoneEmptyCell error = errors.New("You're trying to play on a none empty cell.")
 
 type Stage struct {
-	cells map[int]map[int]string
+	cells [][]string
 }
 
 func NewStage() Stage {
 	stage := Stage{}
-	stage.cells = map[int]map[int]string{}
+	stage.cells = make([][]string, 3, 3)
 	for y := 0; y < 3; y += 1 {
-		stage.cells[y] = map[int]string{}
+		stage.cells[y] = make([]string, 3)
 		for x := 0; x < 3; x += 1 {
 			stage.cells[y][x] = Symbols[Empty]
 		}
