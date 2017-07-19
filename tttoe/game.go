@@ -2,7 +2,6 @@ package tttoe
 
 import (
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -51,7 +50,7 @@ func GetWinner(stage *Stage) string {
 	return Nobody
 }
 
-func Reduce(state State, event Event) State {
+func Reduce(state State, event Event) (State, error) {
 	nextState := state
 	commonUpdates := func() {
 		nextState.Events = append(nextState.Events, event)
@@ -63,8 +62,7 @@ func Reduce(state State, event Event) State {
 		y := event.Data["y"].(int)
 		x := event.Data["x"].(int)
 		if err := nextState.Stage.CheckCoordinates(y, x); err != nil {
-			fmt.Println(">> Error: " + err.Error())
-			break
+			return nextState, err
 		}
 		CheckTurn(player, &nextState.Stage)
 		nextState.Stage.cells[y][x] = Symbols[player]
@@ -73,5 +71,5 @@ func Reduce(state State, event Event) State {
 	default:
 		break
 	}
-	return nextState
+	return nextState, nil
 }

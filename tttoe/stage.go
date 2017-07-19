@@ -83,6 +83,18 @@ func (s *Stage) OneStepToWin(symbol string) (bool, int, int) {
 	return false, 0, 0
 }
 
+func (s *Stage) Split() ([]string, []string, []string) {
+	rows := make([]string, 3)
+	cols := make([]string, 3)
+	for i := 0; i < 3; i += 1 {
+		rows[i] = s.cells[i][0] + s.cells[i][1] + s.cells[i][2]
+		cols[i] = s.cells[0][i] + s.cells[1][i] + s.cells[2][i]
+	}
+	diagonal1 := s.cells[0][0] + s.cells[1][1] + s.cells[2][2]
+	diagonal2 := s.cells[0][2] + s.cells[1][1] + s.cells[2][0]
+	return rows, cols, []string{diagonal1, diagonal2}
+}
+
 func (s *Stage) CheckCoordinates(x, y int) error {
 	if (x < 0 || x > 2) || (y < 0 || y > 2) {
 		return InvalidCoordinate

@@ -11,11 +11,13 @@ type CLI struct {
 	LastState *State
 }
 
-func (cli *CLI) Start(initialState State, reduce func(state State, event Event) State) {
+func (cli *CLI) Start(initialState State,
+	reduce func(state State, event Event) (State, error)) {
 	tick := 0
 	ai := NewAI(Symbols[Player2])
 	state := initialState
 	cli.LastState = &state
+	var stateErr error
 	for {
 		cli.clear()
 		fmt.Println("###### Play Tic-Tac-Toe ######")
@@ -24,18 +26,23 @@ func (cli *CLI) Start(initialState State, reduce func(state State, event Event) 
 		}
 		var player string
 		var x, y int
+		if tick == 2 {
+			tick = 0
+		}
 		if tick == 0 {
 			fmt.Println(">> Where do you want to play?")
 			player = Player1
 			y = cli.askInt(">> Give Y")
 			x = cli.askInt(">> Give X")
-			tick = 1
 		} else {
 			player = Player2
 			y, x = ai.NextPlay(&state.Stage)
-			tick = 0
 		}
-		state = reduce(state, NewPlayEvent(player, y, x))
+		if state, stateErr = reduce(state, NewPlayEvent(player, y, x)); stateErr != nil {
+			fmt.Println(">> Error: " + stateErr.Error())
+		} else {
+			tick += 1
+		}
 		fmt.Println(state.Stage.ToString())
 		cli.wait()
 	}
@@ -54,6 +61,7 @@ func (cli *CLI) Stop() {
 		fmt.Print("#" + strconv.Itoa(idx))
 		fmt.Println(event)
 	}
+	os.Exit(0)
 }
 
 func (cli *CLI) ask(msg string) string {
@@ -65,7 +73,7 @@ func (cli *CLI) ask(msg string) string {
 }
 
 func (cli *CLI) askInt(msg string) int {
-	n, err := strconv.Atoi(cli.ask(">> Give Y"))
+	n, err := strconv.Atoi(cli.ask(msg))
 	if err != nil {
 		panic(err)
 	}
@@ -87,4 +95,5 @@ func (cli *CLI) wait() {
 func (cli *CLI) analyze() {
 	//TODO
 	fmt.Println(">> TODO: AnalyzeFlow")
+	cli.Stop()
 }
