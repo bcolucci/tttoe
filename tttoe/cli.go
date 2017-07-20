@@ -14,7 +14,7 @@ type CLI struct {
 func (cli *CLI) Start(initialState State,
 	reduce func(state State, event Event) (State, error)) {
 	tick := 0
-	ai := NewAI(Symbols[Player2])
+	ai := &AI{Symbol: Cross}
 	state := initialState
 	cli.LastState = &state
 	var stateErr error
