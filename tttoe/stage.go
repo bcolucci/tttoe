@@ -29,7 +29,7 @@ func (s *Stage) ToString() string {
 	for y := 0; y < 3; y += 1 {
 		values := []string{}
 		for x := 0; x < 3; x += 1 {
-			values = append(values, s.cells[y][x])
+			values = append(values, "["+s.cells[y][x]+"]")
 		}
 		stageStr += strings.Join(values, "") + "\n"
 	}
