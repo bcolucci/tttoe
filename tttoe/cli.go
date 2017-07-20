@@ -21,6 +21,7 @@ func (cli *CLI) Start(initialState State,
 	for {
 		cli.clear()
 		fmt.Println("###### Play Tic-Tac-Toe ######")
+		fmt.Println(state.Stage.ToString())
 		if state.Winner != Nobody {
 			break
 		}
@@ -43,7 +44,6 @@ func (cli *CLI) Start(initialState State,
 		} else {
 			tick += 1
 		}
-		fmt.Println(state.Stage.ToString())
 		cli.wait()
 	}
 	fmt.Println(">> The winner is " + state.Winner)
