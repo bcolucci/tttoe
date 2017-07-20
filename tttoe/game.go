@@ -59,13 +59,13 @@ func Reduce(state State, event Event) (State, error) {
 	switch event.Name {
 	case PlayAction:
 		player := event.Data["player"].(string)
-		y := event.Data["y"].(int)
 		x := event.Data["x"].(int)
-		if err := nextState.Stage.CheckCoordinates(y, x); err != nil {
+		y := event.Data["y"].(int)
+		if err := nextState.Stage.CheckCoordinates(x, y); err != nil {
 			return nextState, err
 		}
 		CheckTurn(player, &nextState.Stage)
-		nextState.Stage.cells[y][x] = Symbols[player]
+		nextState.Stage.cells[x][y] = Symbols[player]
 		nextState.Winner = GetWinner(&nextState.Stage)
 		commonUpdates()
 	default:

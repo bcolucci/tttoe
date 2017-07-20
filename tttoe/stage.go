@@ -15,10 +15,10 @@ type Stage struct {
 func NewStage() Stage {
 	stage := Stage{}
 	stage.cells = make([][]string, 3, 3)
-	for y := 0; y < 3; y += 1 {
-		stage.cells[y] = make([]string, 3)
-		for x := 0; x < 3; x += 1 {
-			stage.cells[y][x] = Symbols[Empty]
+	for x := 0; x < 3; x += 1 {
+		stage.cells[x] = make([]string, 3)
+		for y := 0; y < 3; y += 1 {
+			stage.cells[x][y] = Symbols[Empty]
 		}
 	}
 	return stage
@@ -29,7 +29,7 @@ func (s *Stage) ToString() string {
 	for y := 0; y < 3; y += 1 {
 		values := []string{}
 		for x := 0; x < 3; x += 1 {
-			values = append(values, "["+s.cells[y][x]+"]")
+			values = append(values, "["+s.cells[x][y]+"]")
 		}
 		stageStr += strings.Join(values, "") + "\n"
 	}
@@ -38,9 +38,9 @@ func (s *Stage) ToString() string {
 
 func (s *Stage) NbSymbolOcc(symbol string) int {
 	nbOcc := 0
-	for y := 0; y < 3; y += 1 {
-		for x := 0; x < 3; x += 1 {
-			if s.cells[y][x] == symbol {
+	for x := 0; x < 3; x += 1 {
+		for y := 0; y < 3; y += 1 {
+			if s.cells[x][y] == symbol {
 				nbOcc += 1
 			}
 		}
@@ -51,10 +51,10 @@ func (s *Stage) NbSymbolOcc(symbol string) int {
 func (s *Stage) LineOfSymbol(symbol string) bool {
 	expected := symbol + symbol + symbol
 	for i := 0; i < 3; i += 1 {
-		if s.cells[i][0]+s.cells[i][1]+s.cells[i][2] == expected {
+		if s.cells[0][i]+s.cells[1][i]+s.cells[2][i] == expected {
 			return true
 		}
-		if s.cells[0][i]+s.cells[1][i]+s.cells[2][i] == expected {
+		if s.cells[i][0]+s.cells[i][1]+s.cells[i][2] == expected {
 			return true
 		}
 	}
@@ -99,7 +99,7 @@ func (s *Stage) CheckCoordinates(x, y int) error {
 	if (x < 0 || x > 2) || (y < 0 || y > 2) {
 		return InvalidCoordinate
 	}
-	if s.cells[y][x] != Symbols[Empty] {
+	if s.cells[x][y] != Symbols[Empty] {
 		return NoneEmptyCell
 	}
 	return nil

@@ -10,13 +10,13 @@ type Event struct {
 	CreatedAt time.Time
 }
 
-func NewPlayEvent(player string, y, x int) Event {
+func NewPlayEvent(player string, x, y int) Event {
 	return Event{
 		Name: PlayAction,
 		Data: map[string]interface{}{
 			"player": player,
-			"y":      y,
 			"x":      x,
+			"y":      y,
 		},
 		CreatedAt: time.Now()}
 }

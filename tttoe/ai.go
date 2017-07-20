@@ -21,32 +21,34 @@ func (ai *AI) playSomeWhere(stage *Stage) (int, int) {
 	for i := 0; i < 3; i += 1 {
 		x := strings.Index(rows[i], Symbols[Empty])
 		if x > -1 {
+			fmt.Printf("Found a row with an empty cell (->%d,%d)\n", x, i)
 			if strings.Contains(rows[i], ai.Symbol) {
-				return i, x
+				return x, i
 			}
-			fmt.Printf("Empty cell %d,%d\n", i, x)
-			emptyCells = append(emptyCells, []int{i, x})
+			fmt.Printf("Empty cell (%d,%d)\n", x, i)
+			emptyCells = append(emptyCells, []int{x, i})
 		}
 		y := strings.Index(cols[i], Symbols[Empty])
 		if y > -1 {
+			fmt.Printf("Found a row with an empty cell (%d,->%d)\n", i, y)
 			if strings.Contains(cols[i], ai.Symbol) {
-				return y, i
+				return i, y
 			}
-			fmt.Printf("Empty cell %d,%d\n", y, i)
-			emptyCells = append(emptyCells, []int{y, i})
+			fmt.Printf("Empty cell (%d,%d)\n", i, y)
+			emptyCells = append(emptyCells, []int{i, y})
 		}
 	}
 	//TODO check diagonals
-	randCell := emptyCells[rand.Intn(len(emptyCells))]
+	randCell := emptyCells[rand.Intn(len(emptyCells)-1)]
 	return randCell[0], randCell[1]
 }
 
 func (ai *AI) NextPlay(stage *Stage) (int, int) {
-	if canWin, y, x := stage.OneStepToWin(Symbols[Player2]); canWin {
-		return y, x
+	if canWin, x, y := stage.OneStepToWin(Symbols[Player2]); canWin {
+		return x, y
 	}
-	if canWin, y, x := stage.OneStepToWin(Symbols[Player1]); canWin {
-		return y, x
+	if canWin, x, y := stage.OneStepToWin(Symbols[Player1]); canWin {
+		return x, y
 	}
 	return ai.playSomeWhere(stage)
 }

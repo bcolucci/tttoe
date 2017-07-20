@@ -33,13 +33,13 @@ func (cli *CLI) Start(initialState State,
 		if tick == 0 {
 			fmt.Println(">> Where do you want to play?")
 			player = Player1
-			y = cli.askInt(">> Give Y")
 			x = cli.askInt(">> Give X")
+			y = cli.askInt(">> Give Y")
 		} else {
 			player = Player2
-			y, x = ai.NextPlay(&state.Stage)
+			x, y = ai.NextPlay(&state.Stage)
 		}
-		if state, stateErr = reduce(state, NewPlayEvent(player, y, x)); stateErr != nil {
+		if state, stateErr = reduce(state, NewPlayEvent(player, x, y)); stateErr != nil {
 			fmt.Println(">> Error: " + stateErr.Error())
 		} else {
 			tick += 1
