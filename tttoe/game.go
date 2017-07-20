@@ -14,9 +14,9 @@ const Player2 = Circle
 const Nobody = ""
 
 var Symbols = map[string]string{
-	Empty:  "[ ]",
-	Cross:  "[X]",
-	Circle: "[◯]",
+	Empty:  " ",
+	Cross:  "X",
+	Circle: "◯",
 }
 
 var PlayerAlreadyPlayed error = errors.New("Player already played.")
