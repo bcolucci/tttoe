@@ -14,7 +14,7 @@ type CLI struct {
 func (cli *CLI) Start(initialState State,
 	reduce func(state State, event Event) (State, error)) {
 	tick := 0
-	ai := &AI{Symbol: Cross}
+	ai := NewAI()
 	state := initialState
 	cli.LastState = &state
 	var stateErr error

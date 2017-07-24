@@ -26,14 +26,14 @@ func CreateInitialState() State {
 }
 
 func CheckTurn(player string, stage *Stage) error {
-	nbCrossOcc := stage.NbSymbolOcc(Symbols[Cross])
-	nbCircleOcc := stage.NbSymbolOcc(Symbols[Circle])
+	nbP1Symbols := stage.NbPlayerSymbols(Player1)
+	nbP2Symbols := stage.NbPlayerSymbols(Player2)
 	if player == Player1 {
-		if nbCrossOcc == nbCircleOcc+1 {
+		if nbP1Symbols == nbP2Symbols+1 {
 			return PlayerAlreadyPlayed
 		}
 	} else {
-		if nbCircleOcc == nbCrossOcc {
+		if nbP1Symbols == nbP2Symbols {
 			return PlayerAlreadyPlayed
 		}
 	}
@@ -41,10 +41,10 @@ func CheckTurn(player string, stage *Stage) error {
 }
 
 func GetWinner(stage *Stage) string {
-	if stage.LineOfSymbol(Symbols[Player1]) {
+	if stage.FoundPlayerLine(Player1) {
 		return Player1
 	}
-	if stage.LineOfSymbol(Symbols[Player2]) {
+	if stage.FoundPlayerLine(Player2) {
 		return Player2
 	}
 	return Nobody
